@@ -9,6 +9,7 @@ import torch.nn as nn
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
 import torch.optim as optim
+from torch.optim import SGD 
 import torch.nn.functional as F 
 
 
@@ -48,16 +49,18 @@ class numberDataset (Dataset):
 
     def __getitem__(self, idx):
         # takes each row 1 to end and turns it into a 28 x 28 matrix (row 0 is the labels ie pixel 0, pixel 1, etc)
-        sample = self.data.iloc[idx].values.astype('uint8').reshape((28, 28))
+        sample = self.data.iloc[idx, 1:].values.astype('uint8').reshape((28, 28))
+        label = self.data.iloc[idx,0]
         if self.transform:
             sample = self.transform(sample)
             # transform normalizes the data
-        return sample
+        return sample, label
 
 # create neural network
 # new class that inherits from nn.Module
 class numNN_train(nn.Module):
     # new initialization method from the new class
+    # creates and initializes the intial biases
     def __init__(self):
         # call initialization method for the parent class nn.Module
         super().__init__()
@@ -74,22 +77,23 @@ class numNN_train(nn.Module):
         self.final_bias = nn.Parameter(torch.tensor(0.0), requires_grad=True)
         # final bias in this case is right before the output
 
-
+    # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
     def forward(self, input):
         input_to_top_relu = input * self.w00 + self.b00
-        top_relu_output = optim.relu(input_to_top_relu)
+        top_relu_output = F.relu(input_to_top_relu)
         scaled_top_relu_ouput = top_relu_output * self.w01
         
         input_to_bottom_relu = input * self.w10 + self.b10
-        top_bottom_output = optim.relu(input_to_bottom_relu)
+        top_bottom_output = F.relu(input_to_bottom_relu)
         scaled_bottom_relu_ouput = top_bottom_output * self.w11
 
         input_to_final_relu = scaled_top_relu_ouput + scaled_bottom_relu_ouput + self.final_bias
 
-        output = optim.relu(input_to_final_relu)
+        output = F.relu(input_to_final_relu)
 
         return output
-
+    
+    
 # Load training data
 # this composes several transforms together
 
@@ -103,19 +107,16 @@ transform = transforms.Compose([
 
 # Construct the relative path to the CSV file
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-csv_file_path = str(base_path) + r'\data\test.csv'  # Construct the relative path to the CSV file
-
+csv_file_path = os.path.join(base_path,'train.csv')  # Construct the relative path to the CSV file
 # load data
 number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
 
 # loads in data 64 at a time and shuffles dataset for each epoch
 dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 
+# creates training model
+model = numNN_train()
 
+optimizer = SGD(model.parameters(), lr=0.1)
 
-
-# Train your model on your dataset
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# sklearn.model_selection.train_test_split(*arrays, test_size=None, train_size=None, random_state=None, shuffle=True, stratify=None)
-# Link to the description of this: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+print(number_dataset[1][1])
