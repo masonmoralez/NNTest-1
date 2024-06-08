@@ -1,19 +1,31 @@
 import os
+
+# allows us to do tensor math, calculations, and storage of data
 import torch
+
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
+
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
+# these are interchangeable with each other, just need to refer to each other
 import torch.optim as optim
+import torch.nn.functional as F 
+
+
 # classes for handling datasets and creating data loaders
 from torch.utils.data import Dataset, DataLoader
+
 # allows you to normalize your data
 import torchvision
 import torchvision.transforms as transforms
+
 # imports images
 from torchvision.datasets import ImageFolder
+
 # pre-trained image models from pytorch
 # data visulization
 import matplotlib.pyplot as plt
+
 # data exploration
 import pandas as pd
 import numpy as np
@@ -44,7 +56,7 @@ class numberDataset (Dataset):
 
 # create neural network
 # new class that inherits from nn.Module
-class numNN(nn.Module):
+class numNN_train(nn.Module):
     # new initialization method from the new class
     def __init__(self):
         # call initialization method for the parent class nn.Module
@@ -67,6 +79,16 @@ class numNN(nn.Module):
         input_to_top_relu = input * self.w00 + self.b00
         top_relu_output = optim.relu(input_to_top_relu)
         scaled_top_relu_ouput = top_relu_output * self.w01
+        
+        input_to_bottom_relu = input * self.w10 + self.b10
+        top_bottom_output = optim.relu(input_to_bottom_relu)
+        scaled_bottom_relu_ouput = top_bottom_output * self.w11
+
+        input_to_final_relu = scaled_top_relu_ouput + scaled_bottom_relu_ouput + self.final_bias
+
+        output = optim.relu(input_to_final_relu)
+
+        return output
 
 # Load training data
 # this composes several transforms together
