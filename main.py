@@ -7,6 +7,7 @@ import torch.optim as optim
 # classes for handling datasets and creating data loaders
 from torch.utils.data import Dataset, DataLoader
 # allows you to normalize your data
+import torchvision
 import torchvision.transforms as transforms
 # imports images
 from torchvision.datasets import ImageFolder
@@ -41,6 +42,31 @@ class numberDataset (Dataset):
             # transform normalizes the data
         return sample
 
+# create neural network
+# new class that inherits from nn.Module
+class numNN(nn.Module):
+    # new initialization method from the new class
+    def __init__(self):
+        # call initialization method for the parent class nn.Module
+        super().__init__()
+        # creates weights with value of 0 to be trained
+        self.w00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        self.w01 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # need to set requires_grad to true in order to train it
+
+        self.w10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        self.w11 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+
+        self.final_bias = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # final bias in this case is right before the output
+
+
+    def forward(self, input):
+        input_to_top_relu = input * self.w00 + self.b00
+        top_relu_output = optim.relu(input_to_top_relu)
+        scaled_top_relu_ouput = top_relu_output * self.w01
 
 # Load training data
 # this composes several transforms together
@@ -63,10 +89,8 @@ number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
 # loads in data 64 at a time and shuffles dataset for each epoch
 dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 
-# create neural network
-# class numberModel(nn.Module):
-#     def __init__(self):
-#         super().__init__()
+
+
 
 # Train your model on your dataset
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
