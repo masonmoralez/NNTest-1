@@ -70,3 +70,6 @@ dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 
 # Train your model on your dataset
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# sklearn.model_selection.train_test_split(*arrays, test_size=None, train_size=None, random_state=None, shuffle=True, stratify=None)
+# Link to the description of this: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
