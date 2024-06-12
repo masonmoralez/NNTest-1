@@ -123,8 +123,12 @@ def train(epochs, input, model, optimizer):
         #     label_i = (input[i][1]).float
 
         for inputs, labels in dataloader:
-            inputs = inputs.view(inputs.size(0), -1).float()  # Flatten inputs
-            labels = labels.float()
+            # The second argument is -1. In PyTorch, using -1 in the view function tells PyTorch 
+            # to infer the size of that dimension based on the total number of elements and the 
+            # other specified dimensions. (why -1 is used)
+
+            inputs = (inputs.view(inputs.size(0), -1)).float()  # Flatten inputs
+            labels = (labels.view(-1,1)).float()
 
             outputs = model(inputs)
 
