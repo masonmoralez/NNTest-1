@@ -117,14 +117,19 @@ dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 def train(epochs, input, model, optimizer):
     for epoch in range(epochs):
         total_loss = 0
-        for i in range (len(input)):
-            input_i = input[i][0]
-            label_i = (input[i][1]).float
+        # indexing method for going through the code (to update back to original use the indexing method on inputs)
+        # for i in range (len(input)):
+        #     input_i = (input[i][0]).float
+        #     label_i = (input[i][1]).float
 
-            output_i = model(input_i)
+        for inputs, labels in dataloader:
+            inputs = inputs.view(inputs.size(0), -1).float()  # Flatten inputs
+            labels = labels.float()
 
-            # Sum of Squared residuals loss function
-            loss = torch.mean((output_i - label_i)**2)
+            outputs = model(inputs)
+
+            # Sum of Squared residuals loss function 
+            loss = torch.mean((outputs - labels) ** 2)
 
             # calculates the gradients for all tensors that require grad
             loss.backward()
