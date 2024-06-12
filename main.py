@@ -119,7 +119,7 @@ def train(epochs, input, model, optimizer):
         total_loss = 0
         for i in range (len(input)):
             input_i = input[i][0]
-            label_i = input[i][1]
+            label_i = (input[i][1]).float
 
             output_i = model(input_i)
 
@@ -148,8 +148,8 @@ def train(epochs, input, model, optimizer):
 
 
 # creates training model
-number_model = numNN_train()
+number_train_model = numNN_train()
 
-optimizer = SGD(number_model.parameters(), lr=0.1)
+optimizer = SGD(number_train_model.parameters(), lr=0.1)
 
-train(10, number_dataset, number_model,optimizer)
+train(10, number_dataset, number_train_model,optimizer)
