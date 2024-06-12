@@ -114,9 +114,42 @@ number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
 # loads in data 64 at a time and shuffles dataset for each epoch
 dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 
+def train(epochs, input, model, optimizer):
+    for epoch in range(epochs):
+        total_loss = 0
+        for i in range (len(input)):
+            input_i = input[i][0]
+            label_i = input[i][1]
+
+            output_i = model(input_i)
+
+            # Sum of Squared residuals loss function
+            loss = torch.mean((output_i - label_i)**2)
+
+            # calculates the gradients for all tensors that require grad
+            loss.backward()
+
+            # adds loss
+            total_loss += loss.item()
+
+            # takes step based on loss
+            optimizer.step()
+
+            # zeros out derivatives
+            optimizer.zero_grad()
+            
+            # breaks function if 
+            if total_loss <= 0.001:
+                print("Number of Steps", str(epoch))
+                break
+
+        print("Step: ", epoch + 1, "Loss: ", total_loss)
+
+
+
 # creates training model
-model = numNN_train()
+number_model = numNN_train()
 
-optimizer = SGD(model.parameters(), lr=0.1)
+optimizer = SGD(number_model.parameters(), lr=0.1)
 
-print(number_dataset[1][1])
+train(10, number_dataset, number_model,optimizer)
