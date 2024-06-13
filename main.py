@@ -64,34 +64,47 @@ class numNN_train(nn.Module):
     def __init__(self):
         # call initialization method for the parent class nn.Module
         super().__init__()
-        # creates weights with value of 0 to be trained
-        self.w00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w01 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # need to set requires_grad to true in order to train it
+        
+        ''' tested different initializations with the variables '''
+        # # creates weights with value of 0 to be trained
+        # self.w00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w01 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # # need to set requires_grad to true in order to train it
 
-        self.w10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w11 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w11 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
 
-        self.final_bias = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w20 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.b20 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w21 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+
+        self.fc1 = nn.Linear(28 * 28, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 1)
         # final bias in this case is right before the output
 
     # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
-    def forward(self, input):
-        input_to_top_relu = input * self.w00 + self.b00
-        top_relu_output = F.relu(input_to_top_relu)
-        scaled_top_relu_ouput = top_relu_output * self.w01
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
         
-        input_to_bottom_relu = input * self.w10 + self.b10
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w11
+        # input_to_top_relu = input * self.w00 + self.b00
+        # top_relu_output = F.relu(input_to_top_relu)
+        # scaled_top_relu_ouput = top_relu_output * self.w01
+        
+        # input_to_bottom_relu = input * self.w10 + self.b10
+        # top_bottom_output = F.relu(input_to_bottom_relu)
+        # scaled_bottom_relu_ouput = top_bottom_output * self.w11
 
-        input_to_final_relu = scaled_top_relu_ouput + scaled_bottom_relu_ouput + self.final_bias
+        # input_to_final_relu = scaled_top_relu_ouput + scaled_bottom_relu_ouput + self.final_bias
 
-        output = F.relu(input_to_final_relu)
+        # output = F.relu(input_to_final_relu)
 
-        return output
+        # return output
     
     
 # Load training data
@@ -161,4 +174,4 @@ number_train_model = numNN_train()
 
 optimizer = SGD(number_train_model.parameters(), lr=0.1)
 
-train(10, number_dataset, number_train_model,optimizer)
+train(50, number_dataset, number_train_model,optimizer)
