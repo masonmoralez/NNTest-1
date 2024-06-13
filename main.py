@@ -159,7 +159,6 @@ def train(epochs, input, model, optimizer):
 
             # zeros out derivatives
             optimizer.zero_grad()
-            
             # breaks function if 
             if total_loss <= 0.001:
                 print("Number of Steps", str(epoch))
