@@ -131,47 +131,47 @@ class numNN_train(nn.Module):
         # print(x)
         # return x
         
-        input_to_top_relu = input * self.w00 + self.b00
-        top_relu_output = F.relu(input_to_top_relu)
-        scaled_top_relu_ouput = top_relu_output * self.w01
+        input0 = input * self.w00 + self.b00
+        relu_input0 = F.relu(input0)
+        output0 = relu_input0 * self.w01
         
-        input_to_bottom_relu = input * self.w10 + self.b10
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w11
+        input1 = input * self.w10 + self.b10
+        relu_input1 = F.relu(input1)
+        output1 = relu_input1 * self.w11
 
-        input_to_bottom_relu = input * self.w20 + self.b20
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w21
+        input2 = input * self.w20 + self.b20
+        relu_input2 = F.relu(input2)
+        output2 = relu_input2 * self.w21
 
-        input_to_bottom_relu = input * self.w30 + self.b30
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w31
+        input3 = input * self.w30 + self.b30
+        relu_input3 = F.relu(input3)
+        output3 = relu_input3 * self.w31
         
-        input_to_bottom_relu = input * self.w40 + self.b40
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w41
+        input4 = input * self.w40 + self.b40
+        relu_input4 = F.relu(input4)
+        output4 = relu_input4 * self.w41
 
-        input_to_bottom_relu = input * self.w50 + self.b50
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w51
+        input5 = input * self.w50 + self.b50
+        relu_input5 = F.relu(input5)
+        output5 = relu_input5 * self.w51
 
-        input_to_bottom_relu = input * self.w60 + self.b60
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w61
+        input6 = input * self.w60 + self.b60
+        relu_input6 = F.relu(input6)
+        output6 = relu_input6 * self.w61
 
-        input_to_bottom_relu = input * self.w70 + self.b70
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w71
+        input7 = input * self.w70 + self.b70
+        relu_input7 = F.relu(input7)
+        output7 = relu_input7 * self.w71
         
-        input_to_bottom_relu = input * self.w80 + self.b80
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w81
+        input8 = input * self.w80 + self.b80
+        relu_input8 = F.relu(input8)
+        output8 = relu_input8 * self.w81
 
-        input_to_bottom_relu = input * self.w90 + self.b90
-        top_bottom_output = F.relu(input_to_bottom_relu)
-        scaled_bottom_relu_ouput = top_bottom_output * self.w91
+        input9 = input * self.w90 + self.b90
+        relu_input9 = F.relu(input9)
+        output9 = relu_input9 * self.w91
 
-        input_to_final_relu = scaled_top_relu_ouput + scaled_bottom_relu_ouput + self.final_bias
+        input_to_final_relu = output0 + output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8 + output9 + self.final_bias
 
         output = F.relu(input_to_final_relu)
 
@@ -201,6 +201,6 @@ dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
 # creates training model
 number_train_model = numNN_train()
 
-optimizer = SGD(number_train_model.parameters(), lr=0.1)
+optimizer = SGD(number_train_model.parameters(), lr=0.001)
 
 training(50, number_train_model,optimizer,dataloader)
