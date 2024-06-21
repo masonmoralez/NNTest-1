@@ -121,62 +121,57 @@ class numNN_train(nn.Module):
         # self.relu = nn.ReLU()
 
     # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
-    def forward(self, input):
-        # x = x.view(-1, 28*28)
-        # x = F.relu(self.fc1(x))
-        # x = F.relu(self.fc2(x))
-        # x = self.fc3(x)
-        # return x
-
-        # x = F.relu(self.fc1(x))
-        # x = F.relu(self.fc2(x))
-        # x = self.fc3(x)
-        # print(x)
-        # return x
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.out(x)
+        print(x)
         
-        input0 = input * self.w00 + self.b00
-        relu_input0 = F.relu(input0)
-        output0 = relu_input0 * self.w01
+        return x
         
-        input1 = input * self.w10 + self.b10
-        relu_input1 = F.relu(input1)
-        output1 = relu_input1 * self.w11
-
-        input2 = input * self.w20 + self.b20
-        relu_input2 = F.relu(input2)
-        output2 = relu_input2 * self.w21
-
-        input3 = input * self.w30 + self.b30
-        relu_input3 = F.relu(input3)
-        output3 = relu_input3 * self.w31
+        # input0 = input * self.w00 + self.b00
+        # relu_input0 = F.relu(input0)
+        # output0 = relu_input0 * self.w01
         
-        input4 = input * self.w40 + self.b40
-        relu_input4 = F.relu(input4)
-        output4 = relu_input4 * self.w41
+        # input1 = input * self.w10 + self.b10
+        # relu_input1 = F.relu(input1)
+        # output1 = relu_input1 * self.w11
 
-        input5 = input * self.w50 + self.b50
-        relu_input5 = F.relu(input5)
-        output5 = relu_input5 * self.w51
+        # input2 = input * self.w20 + self.b20
+        # relu_input2 = F.relu(input2)
+        # output2 = relu_input2 * self.w21
 
-        input6 = input * self.w60 + self.b60
-        relu_input6 = F.relu(input6)
-        output6 = relu_input6 * self.w61
-
-        input7 = input * self.w70 + self.b70
-        relu_input7 = F.relu(input7)
-        output7 = relu_input7 * self.w71
+        # input3 = input * self.w30 + self.b30
+        # relu_input3 = F.relu(input3)
+        # output3 = relu_input3 * self.w31
         
-        input8 = input * self.w80 + self.b80
-        relu_input8 = F.relu(input8)
-        output8 = relu_input8 * self.w81
+        # input4 = input * self.w40 + self.b40
+        # relu_input4 = F.relu(input4)
+        # output4 = relu_input4 * self.w41
 
-        input9 = input * self.w90 + self.b90
-        relu_input9 = F.relu(input9)
-        output9 = relu_input9 * self.w91
+        # input5 = input * self.w50 + self.b50
+        # relu_input5 = F.relu(input5)
+        # output5 = relu_input5 * self.w51
 
-        input_to_final_relu = output0 + output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8 + output9 + self.final_bias
+        # input6 = input * self.w60 + self.b60
+        # relu_input6 = F.relu(input6)
+        # output6 = relu_input6 * self.w61
 
-        output = F.relu(input_to_final_relu)
+        # input7 = input * self.w70 + self.b70
+        # relu_input7 = F.relu(input7)
+        # output7 = relu_input7 * self.w71
+        
+        # input8 = input * self.w80 + self.b80
+        # relu_input8 = F.relu(input8)
+        # output8 = relu_input8 * self.w81
+
+        # input9 = input * self.w90 + self.b90
+        # relu_input9 = F.relu(input9)
+        # output9 = relu_input9 * self.w91
+
+        # input_to_final_relu = output0 + output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8 + output9 + self.final_bias
+
+        # output = F.relu(input_to_final_relu)
 
         return output
     
