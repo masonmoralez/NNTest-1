@@ -1,8 +1,6 @@
 import os
-
 # allows us to do tensor math, calculations, and storage of data
 import torch
-
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
 
@@ -67,58 +65,6 @@ class numNN_train(nn.Module):
         self.fc1 = nn.Linear(in_features, h1)
         self.fc2 = nn.Linear(h1, h2)
         self.out = nn.Linear(h2, out_features)
-    
-        ''' tested different initializations with the variables (can be removed after this due to inefficiency)'''
-        # # # creates weights with value of 0 to be trained
-        # self.w00 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w01 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # # need to set requires_grad to true in order to train it
-
-        # self.w10 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w11 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w20 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b20 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w21 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w30 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b30 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w31 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w40 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b40 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w41 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w50 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b50 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w51 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        
-        # self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w70 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b70 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w71 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w80 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b80 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w81 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.w90 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # self.b90 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        # self.w91 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        # self.fc1 = nn.Linear(28 * 28, 128)
-        # self.fc2 = nn.Linear(128, 64)
-        # self.fc3 = nn.Linear(64, 10)
-        # self.relu = nn.ReLU()
 
     # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
     def forward(self, x):
@@ -126,54 +72,8 @@ class numNN_train(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.out(x)
         print(x)
-        
+
         return x
-        
-        # input0 = input * self.w00 + self.b00
-        # relu_input0 = F.relu(input0)
-        # output0 = relu_input0 * self.w01
-        
-        # input1 = input * self.w10 + self.b10
-        # relu_input1 = F.relu(input1)
-        # output1 = relu_input1 * self.w11
-
-        # input2 = input * self.w20 + self.b20
-        # relu_input2 = F.relu(input2)
-        # output2 = relu_input2 * self.w21
-
-        # input3 = input * self.w30 + self.b30
-        # relu_input3 = F.relu(input3)
-        # output3 = relu_input3 * self.w31
-        
-        # input4 = input * self.w40 + self.b40
-        # relu_input4 = F.relu(input4)
-        # output4 = relu_input4 * self.w41
-
-        # input5 = input * self.w50 + self.b50
-        # relu_input5 = F.relu(input5)
-        # output5 = relu_input5 * self.w51
-
-        # input6 = input * self.w60 + self.b60
-        # relu_input6 = F.relu(input6)
-        # output6 = relu_input6 * self.w61
-
-        # input7 = input * self.w70 + self.b70
-        # relu_input7 = F.relu(input7)
-        # output7 = relu_input7 * self.w71
-        
-        # input8 = input * self.w80 + self.b80
-        # relu_input8 = F.relu(input8)
-        # output8 = relu_input8 * self.w81
-
-        # input9 = input * self.w90 + self.b90
-        # relu_input9 = F.relu(input9)
-        # output9 = relu_input9 * self.w91
-
-        # input_to_final_relu = output0 + output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8 + output9 + self.final_bias
-
-        # output = F.relu(input_to_final_relu)
-
-        return output
     
     
 # Load training data
@@ -188,6 +88,9 @@ transform = transforms.Compose([
 ])
 
 # Construct the relative path to the CSV file
+''' We can make our data base set easier to use with a URL. (However, this is a problem that we can change later) '''
+''' We also need to look at pandas and loading the data '''
+
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
 csv_file_path = os.path.join(base_path,'train.csv')  # Construct the relative path to the CSV file
 # load data
@@ -195,6 +98,9 @@ number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
 
 # loads in data 64 at a time and shuffles dataset for each epoch
 dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
+
+# Need to pick a manual seed for randomization of the weights and biases that we are using
+torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number
 
 # creates training model
 number_train_model = numNN_train()
