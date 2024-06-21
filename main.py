@@ -32,6 +32,8 @@ import matplotlib.pyplot as plt
 # data exploration
 import pandas as pd
 
+pixels = 28
+
 # Step 2: Define your neural network architecture
 class numberDataset (Dataset):
     # initializes the data setting it to the csv_file that is being read
@@ -59,58 +61,59 @@ class numberDataset (Dataset):
 class numNN_train(nn.Module):
     # new initialization method from the new class
     # creates and initializes the intial biases
-    def __init__(self):
+    def __init__(self, in_features = (pixels **2), h1 = 16, h2 = 16, out_features = 10):
         # call initialization method for the parent class nn.Module
         super(numNN_train, self).__init__()
+        self.fc1 = nn.Linear(in_features, h1)
+        self.fc2 = nn.Linear(h1, h2)
+        self.out = nn.Linear(h2, out_features)
+    
+        ''' tested different initializations with the variables (can be removed after this due to inefficiency)'''
+        # # # creates weights with value of 0 to be trained
+        # self.w00 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w01 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # # need to set requires_grad to true in order to train it
+
+        # self.w10 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w11 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+
+        # self.w20 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b20 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w21 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+
+        # self.w30 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b30 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w31 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+
+        # self.w40 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b40 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w41 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+
+        # self.w50 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b50 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w51 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
         
-        ''' tested different initializations with the variables '''
-        # # creates weights with value of 0 to be trained
-        self.w00 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b00 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w01 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        # need to set requires_grad to true in order to train it
+        # self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
-        self.w10 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b10 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w11 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
-        self.w20 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b20 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w21 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.w70 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b70 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w71 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
-        self.w30 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b30 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w31 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.w80 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b80 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w81 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
-        self.w40 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b40 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w41 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.w50 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b50 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w51 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        
-        self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.w60 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b60 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w61 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.w70 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b70 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w71 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.w80 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b80 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w81 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.w90 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-        self.b90 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
-        self.w91 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
-
-        self.final_bias = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w90 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
+        # self.b90 = nn.Parameter(torch.tensor(0.0), requires_grad=True)
+        # self.w91 = nn.Parameter(torch.tensor(1.0), requires_grad=True)
 
         # self.fc1 = nn.Linear(28 * 28, 128)
         # self.fc2 = nn.Linear(128, 64)
