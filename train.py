@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-def training(epochs,model, optimizer,dataloader):
+def training(epochs,model, optimizer,dataloader,testloader):
     for epoch in range(epochs):
         total_loss = 0
         # indexing method for going through the code (to update back to original use the indexing method on inputs)
@@ -39,6 +39,4 @@ def training(epochs,model, optimizer,dataloader):
                 print("Number of Steps", str(epoch))
                 break
 
-        print(model.w00)
-        print("Step: ", epoch + 1, "Loss: ", total_loss)
-
+        print("Step: ", epoch + 1, "Loss: ", total_loss, ", ", loss)

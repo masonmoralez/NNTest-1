@@ -30,6 +30,9 @@ import matplotlib.pyplot as plt
 # data exploration
 import pandas as pd
 
+# Need to pick a manual seed for randomization of the weights and biases that we are using
+torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number
+
 pixels = 28
 
 # Step 2: Define your neural network architecture
@@ -59,7 +62,7 @@ class numberDataset (Dataset):
 class numNN_train(nn.Module):
     # new initialization method from the new class
     # creates and initializes the intial biases
-    def __init__(self, in_features = (pixels **2), h1 = 16, h2 = 16, out_features = 10):
+    def __init__(self, in_features = (pixels ** 2), h1 = 128, h2 = 64, out_features = 10):
         # call initialization method for the parent class nn.Module
         super(numNN_train, self).__init__()
         self.fc1 = nn.Linear(in_features, h1)
@@ -68,13 +71,11 @@ class numNN_train(nn.Module):
 
     # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
     def forward(self, x):
+        x = x.view(-1, 28 * 28) # Flattens the input 
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.out(x)
-        print(x)
-
         return x
-    
     
 # Load training data
 # this composes several transforms together
@@ -92,19 +93,20 @@ transform = transforms.Compose([
 ''' We also need to look at pandas and loading the data '''
 
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-csv_file_path = os.path.join(base_path,'train.csv')  # Construct the relative path to the CSV file
+csv_file_path = os.path.join(base_path,'train.csv')
+csv_file_path2 = os.path.join(base_path,'test.csv')  # Construct the relative path to the CSV file
 # load data
 number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
+number_dataset2 = numberDataset(csv_file=csv_file_path2, transform=transform)
 
 # loads in data 64 at a time and shuffles dataset for each epoch
 dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
-
-# Need to pick a manual seed for randomization of the weights and biases that we are using
-torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number
+testloader = DataLoader(number_dataset2, batch_size=64, shuffle=True)
 
 # creates training model
 number_train_model = numNN_train()
 
-optimizer = SGD(number_train_model.parameters(), lr=0.001)
+optimizer = SGD(number_train_model.parameters(), lr=0.01)
 
-training(50, number_train_model,optimizer,dataloader)
+training(100, number_train_model,optimizer,dataloader,testloader)
+
