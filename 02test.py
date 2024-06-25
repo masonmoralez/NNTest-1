@@ -4,7 +4,8 @@ import torch
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
 
-from train import training
+from F_train import training
+from F_nnModel import numNN_train
 
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
@@ -29,7 +30,7 @@ import matplotlib.pyplot as plt
 # data exploration
 import pandas as pd
 
-pixels = 28
+pixels = 28 # adjustable data parameter
 
 # Custom dataset class
 class CustomDigitDataset(Dataset):
@@ -55,12 +56,10 @@ test_loader = DataLoader(test_dataset, batch_size=64, shuffle=True)
     # - train_dataset (the dataset that we loaded)
     # - batch_size (how many samples will be passed through the data at one time)
     # - shuffle (enabling this with True means that you get random data each time)
-print(train_loader)
-print(test_loader)
 
 ''' Uncomment this code for debugging (purpose is to see the labels and images plus their size)'''
-'''
-# Print some samples from train_loader
+
+'''# Print some samples from train_loader
 dataiter = iter(train_loader)
 images, labels = next(dataiter)
 
@@ -70,27 +69,6 @@ print('Labels:', labels)
 
 # Optionally, you can print the images in a more readable format (for example, as numpy arrays)
 print('Images:', images.numpy())'''
-
-# create neural network
-# new class that inherits from nn.Module
-class numNN_train(nn.Module):
-    # new initialization method from the new class
-    # creates and initializes the intial biases
-    def __init__(self, in_features = (pixels ** 2), h1 = 16, h2 = 16, out_features = 10):
-        # call initialization method for the parent class nn.Module
-        super().__init__() # instantiate our nn.Module
-        self.fc1 = nn.Linear(in_features, h1)
-        self.fc2 = nn.Linear(h1, h2)
-        self.out = nn.Linear(h2, out_features)
-
-    # goes through the neural network by taking an input value and calculating the output value with the weights, biases, and activation functions
-    def forward(self, x):
-        # x = x.reshape(-1, 28 * 28) # Flattens the input (does this by setting the 2nd dimension to 756, and filling in the value for the first dimension)
-        # this code moves everything forward thorugh the layers
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.out(x)
-        return x
     
 # Need to pick a manual seed for randomization of the weights and biases that we are using
 torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number

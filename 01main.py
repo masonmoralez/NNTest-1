@@ -4,7 +4,7 @@ import torch
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
 
-from train import training
+from F_train import training
 
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
