@@ -6,6 +6,7 @@ import torch.nn as nn
 
 from F_train import training
 from F_nnModel import numNN_train
+from F_data import CustomDigitDataset
 
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
@@ -29,24 +30,6 @@ import matplotlib.pyplot as plt
 
 # data exploration
 import pandas as pd
-
-pixels = 28 # adjustable data parameter
-
-# Custom dataset class
-class CustomDigitDataset(Dataset):
-    def __init__(self, csv_file):
-        self.data_frame = pd.read_csv(csv_file)
-        # Assuming the first column is labels and the rest are pixel values
-        self.labels = torch.tensor(self.data_frame.iloc[:, 0].values, dtype=torch.long)
-        print("Labels: ", self.labels)
-        self.features = torch.tensor(self.data_frame.iloc[:, 1:].values, dtype=torch.float32)
-        print("Features: ", self.features)
-        
-    def __len__(self):
-        return len(self.data_frame)
-    
-    def __getitem__(self, idx):
-        return self.features[idx], self.labels[idx]
 
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
 train_dataset = CustomDigitDataset(os.path.join(base_path,'train.csv'))
