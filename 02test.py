@@ -4,18 +4,15 @@ import torch
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
 
-from F_train import training
-from F_nnModel import numNN_train
+from F_train import train_model
 from F_data import CustomDigitDataset
 
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
-import torch.optim as optim
-from torch.optim import SGD 
 import torch.nn.functional as F 
 
 # classes for handling datasets and creating data loaders
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 
 # allows you to normalize your data
 import torchvision
@@ -53,39 +50,6 @@ print('Labels:', labels)
 # Optionally, you can print the images in a more readable format (for example, as numpy arrays)
 print('Images:', images.numpy())
 
-def train_model(train_loader, test_loader, learning_rate = 0.001, epochs = 30):
-    num_Model = numNN_train()
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(num_Model.parameters(), lr=learning_rate)
-    running_loss = 0
-
-    for epoch in range(epochs):
-        for i, data in enumerate(train_loader,0):
-        # this iterates through train_loader, starting at a 
-            inputs, labels = data
-            # Each data yielded by train_loader is a tuple containing a batch of inputs and their corresponding labels
-            # this simply extracts the inputs and labels from data, in a index value format
-            optimizer.zero_grad() # Process of zeroing the gradients
-            # Forward pass
-            outputs = num_Model(inputs)
-            # Compute loss
-            loss = criterion(outputs, labels)
-            # Backward pass
-            loss.backward()
-            # Optimize
-            optimizer.step()
-            # Accumulate loss
-            running_loss += loss.item()
-            if i % 100 == 99:  # Print every 100 mini-batches
-                print(f'Epoch {epoch + 1}, Batch {i + 1}, Loss: {running_loss / 100:.3f}')
-                running_loss = 0.0
-            # breaks function if 
-            if running_loss <= 0.001:
-                print("Number of Steps", str(epoch))
-                break
-
-        print("Step: ", epoch + 1, "Loss: ", running_loss, ", ", loss)
-
 # Need to pick a manual seed for randomization of the weights and biases that we are using
 torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number
-train_model(train_loader, test_loader)
+finished_model = train_model(train_loader, test_loader)

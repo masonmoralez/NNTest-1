@@ -1,42 +1,33 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from F_nnModel import numNN_train
 
-def training(epochs,model, optimizer,dataloader,testloader):
+def train_model(train_loader, test_loader, learning_rate = 0.001, epochs = 30):
+    num_Model = numNN_train()
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(num_Model.parameters(), lr=learning_rate)
+    running_loss = 0
+
     for epoch in range(epochs):
-        total_loss = 0
-        # indexing method for going through the code (to update back to original use the indexing method on inputs)
-        # for i in range (len(input)):
-        #     input_i = (input[i][0]).float
-        #     label_i = (input[i][1]).float
-
-        for inputs, labels in dataloader:
-            # The second argument is -1. In PyTorch, using -1 in the view function tells PyTorch 
-            # to infer the size of that dimension based on the total number of elements and the 
-            # other specified dimensions. (why -1 is used)
-
-            inputs = (inputs.view(inputs.size(0), -1)).float()  # Flatten inputs
-            labels = (labels.view(-1,1)).float()
-
-            outputs = model(inputs)
-
-            # Sum of Squared residuals loss function 
-            loss = torch.mean((outputs - labels) ** 2)
-
-            # calculates the gradients for all tensors that require grad
+        for i, data in enumerate(train_loader,0):
+        # this iterates through train_loader, starting at a 
+            inputs, labels = data
+            # Each data yielded by train_loader is a tuple containing a batch of inputs and their corresponding labels
+            # this simply extracts the inputs and labels from data, in a index value format
+            optimizer.zero_grad() # Process of zeroing the gradients
+            # Forward pass
+            outputs = num_Model(inputs)
+            # Compute loss
+            loss = criterion(outputs, labels)
+            # Backward pass
             loss.backward()
-
-            # adds loss
-            total_loss += loss.item()
-
-            # takes step based on loss
+            # Optimize
             optimizer.step()
+            # Accumulate loss
+            running_loss += loss.item()
+            if i % 200 == 199:  # Print every 100 mini-batches
+                print(f'Epoch {epoch + 1}, Batch {i + 1}, Loss: {running_loss / 100:.3f}')
+                running_loss = 0.0
 
-            # zeros out derivatives
-            optimizer.zero_grad()
-            # breaks function if 
-            if total_loss <= 0.001:
-                print("Number of Steps", str(epoch))
-                break
-
-        print("Step: ", epoch + 1, "Loss: ", total_loss, ", ", loss)
+    return num_Model 
