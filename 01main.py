@@ -100,13 +100,13 @@ number_dataset_train = numberDataset(csv_file=csv_file_path_train, transform=tra
 number_dataset_test = numberDataset(csv_file=csv_file_path_test, transform=transform)
 
 # loads in data 64 at a time and shuffles dataset for each epoch
-data_train_loader = DataLoader(number_dataset_train, batch_size=64, shuffle=True)
-data_test_loader = DataLoader(number_dataset_test, batch_size=64, shuffle=True)
+train_loader = DataLoader(number_dataset_train, batch_size=64, shuffle=True)
+test_loader = DataLoader(number_dataset_test, batch_size=64, shuffle=True)
 
 # creates training model
 number_train_model = numNN_train()
 
 optimizer = SGD(number_train_model.parameters(), lr=0.01)
 
-training(100, number_train_model,optimizer,data_train_loader,data_test_loader)
+training(100, number_train_model,optimizer,train_loader,test_loader)
 
