@@ -25,7 +25,7 @@ from torchvision.datasets import ImageFolder
 
 # pre-trained image models from pytorch
 # data visulization
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # data exploration
 import pandas as pd
@@ -93,20 +93,20 @@ transform = transforms.Compose([
 ''' We also need to look at pandas and loading the data '''
 
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-csv_file_path = os.path.join(base_path,'train.csv')
-csv_file_path2 = os.path.join(base_path,'test.csv')  # Construct the relative path to the CSV file
+csv_file_path_train = os.path.join(base_path,'train.csv')
+csv_file_path_test = os.path.join(base_path,'test.csv')  # Construct the relative path to the CSV file
 # load data
-number_dataset = numberDataset(csv_file=csv_file_path, transform=transform)
-number_dataset2 = numberDataset(csv_file=csv_file_path2, transform=transform)
+number_dataset_train = numberDataset(csv_file=csv_file_path_train, transform=transform)
+number_dataset_test = numberDataset(csv_file=csv_file_path_test, transform=transform)
 
 # loads in data 64 at a time and shuffles dataset for each epoch
-dataloader = DataLoader(number_dataset, batch_size=64, shuffle=True)
-testloader = DataLoader(number_dataset2, batch_size=64, shuffle=True)
+train_loader = DataLoader(number_dataset_train, batch_size=64, shuffle=True)
+test_loader = DataLoader(number_dataset_test, batch_size=64, shuffle=True)
 
 # creates training model
 number_train_model = numNN_train()
 
 optimizer = SGD(number_train_model.parameters(), lr=0.01)
 
-training(100, number_train_model,optimizer,dataloader,testloader)
+training(100, number_train_model,optimizer,train_loader,test_loader)
 
