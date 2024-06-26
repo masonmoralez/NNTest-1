@@ -34,8 +34,8 @@ import pandas as pd
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
 train_dataset = CustomDigitDataset(os.path.join(base_path,'train.csv'))
 test_dataset = CustomDigitDataset(os.path.join(base_path,'test.csv'))
-train_loader = DataLoader(train_dataset, batch_size=100, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=100, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=200, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=200, shuffle=True)
     # - train_dataset (the dataset that we loaded)
     # - batch_size (how many samples will be passed through the data at one time)
     # - shuffle (enabling this with True means that you get random data each time)
@@ -53,7 +53,7 @@ print('Labels:', labels)
 # Optionally, you can print the images in a more readable format (for example, as numpy arrays)
 print('Images:', images.numpy())
 
-def train_model(train_loader, test_loader, learning_rate = 0.01, epochs = 10):
+def train_model(train_loader, test_loader, learning_rate = 0.001, epochs = 30):
     num_Model = numNN_train()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(num_Model.parameters(), lr=learning_rate)
