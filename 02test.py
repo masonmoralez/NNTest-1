@@ -26,7 +26,7 @@ from torchvision.datasets import ImageFolder
 
 # pre-trained image models from pytorch
 # data visulization
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # data exploration
 import pandas as pd
@@ -57,9 +57,10 @@ def train_model(train_loader, test_loader, learning_rate = 0.001, epochs = 30):
     num_Model = numNN_train()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(num_Model.parameters(), lr=learning_rate)
-    running_loss = 0
 
     for epoch in range(epochs):
+        running_loss = 0
+        early_stop = False
         for i, data in enumerate(train_loader,0):
         # this iterates through train_loader, starting at a 
             inputs, labels = data
@@ -77,14 +78,16 @@ def train_model(train_loader, test_loader, learning_rate = 0.001, epochs = 30):
             # Accumulate loss
             running_loss += loss.item()
             if i % 100 == 99:  # Print every 100 mini-batches
-                print(f'Epoch {epoch + 1}, Batch {i + 1}, Loss: {running_loss / 100:.3f}')
+                print(f'Epoch {epoch + 1}, Batch {i + 1}, Loss: {running_loss / 100:.7f}')
+                if running_loss / 100 <= 0.001:
+                    print(f"Number of Steps {epoch + 1}")
+                    early_stop = True
+                    break
                 running_loss = 0.0
-            # breaks function if 
-            if running_loss <= 0.001:
-                print("Number of Steps", str(epoch))
-                break
-
-        print("Step: ", epoch + 1, "Loss: ", running_loss, ", ", loss)
+        if early_stop:
+            break
+        elif epoch + 1 == epochs:
+            print(f"Finished Training Final Loss:  {running_loss}")
 
 # Need to pick a manual seed for randomization of the weights and biases that we are using
 torch.manual_seed(11) # 11 is just a random number (in this case I picked it because its Jalen Brunson's number). Can really be any number
