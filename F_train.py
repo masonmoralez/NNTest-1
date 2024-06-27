@@ -27,7 +27,7 @@ def train_model(train_loader, test_loader, batch_size, learning_rate = 0.001, ep
             # Accumulate loss
             running_loss += loss.item()
             if i % 200 == 199:  # Print every 200 mini-batches
-                print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {running_loss / 100:.3f}')
+                print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {running_loss / 100:.5f}')
                 running_loss = 0.0
 
     return num_Model 
