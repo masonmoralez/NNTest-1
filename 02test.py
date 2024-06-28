@@ -34,8 +34,8 @@ batch_size = 200
 base_path = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
 train_dataset = CustomDigitDataset(os.path.join(base_path,'train.csv'))
 test_dataset = CustomDigitDataset(os.path.join(base_path,'test.csv'))
-train_loader = DataLoader(train_dataset, batch_size, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
     # - train_dataset (the dataset that we loaded)
     # - batch_size (how many samples will be passed through the data at one time)
     # - shuffle (enabling this with True means that you get random data each time)
