@@ -24,7 +24,7 @@ from torchvision.datasets import ImageFolder
 
 # pre-trained image models from pytorch
 # data visulization
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # data exploration
 import pandas as pd
