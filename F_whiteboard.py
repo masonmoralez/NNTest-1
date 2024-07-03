@@ -7,3 +7,7 @@ class WhiteBoard():
         screen = py.display.set_mode((width, height))
         py.display.set_caption("AnimalChess")
         screen.fill(py.Color(117,117,117))
+        return
+    
+if __name__ == '__main__':
+    WhiteBoard().run()
