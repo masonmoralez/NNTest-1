@@ -26,12 +26,12 @@ def train_model(train_loader, test_loader, batch_size, learning_rate = 0.001, ep
             optimizer.step()
             # Accumulate loss
             running_loss += loss.item()
-            print(i)
             if i == batch_size:  # Print every batch
-                print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {running_loss / 100:.3f}')
-            if i % 200 == 199:  # Print every 200 mini-batches
-                print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {running_loss / 100:.5f}')
+                print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {(running_loss / 100) / batch_size:.5f}')
                 running_loss = 0.0
+            # if i % 200 == 0:  # Print every 200 mini-batches
+            #     print(f'Epoch {epoch + 1}, Batch Size {batch_size}, Loss: {running_loss / 100:.5f}')
+            #     running_loss = 0.0
         print('batch done')
 
     return num_Model 
