@@ -4,7 +4,7 @@ import torch
 # imports the neural networks classes and functions from pytorch
 import torch.nn as nn
 
-from F_train import training
+from F_train import train_model
 
 # imports the optimization algorithms from pytorch like stochastic gradient descrent
 # these are interchangeable with each other, just need to refer to each other
@@ -108,5 +108,5 @@ number_train_model = numNN_train()
 
 optimizer = SGD(number_train_model.parameters(), lr=0.01)
 
-training(100, number_train_model,optimizer,train_loader,test_loader)
+train_model(100, number_train_model,optimizer,train_loader,test_loader)
 
