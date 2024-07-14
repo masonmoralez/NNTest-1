@@ -42,9 +42,4 @@ while running:
                 p.display.flip()
                 mouse_pos.clear()
     p.display.flip()
-
-
-
-
-
 p.quit()
