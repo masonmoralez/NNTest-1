@@ -125,6 +125,6 @@ def train_network_advanced(train_loader, test_loader, learning_rate=0.001, epoch
             correct += (predicted == label).sum().item()
 
     accuracy = 100 * correct / total
-    print(f'Accuracy of the network on the 10000 test images: {accuracy:.2f}%')
+    print(f'Accuracy of the network: {accuracy:.2f}%')
 
 train_network_advanced(train_loader, test_loader)
