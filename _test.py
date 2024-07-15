@@ -80,7 +80,7 @@ class AdvancedNN(nn.Module):
         return x
 
 # Function to train the advanced network
-def train_network_advanced(train_loader, test_loader, learning_rate=0.001, epochs=10, batch_size = 100):
+def train_network_advanced(train_loader, test_loader, learning_rate=0.001, epochs=100, batch_size = 100):
     net = AdvancedNN()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=learning_rate)
@@ -113,6 +113,7 @@ def train_network_advanced(train_loader, test_loader, learning_rate=0.001, epoch
                 running_loss = 0.0
 
     torch.save(net.state_dict(), 'optimized_NN.pth')
+    print('Model Saved')
     print('Finished Training Advanced Network\n')
     # # Calculate and print accuracy on the test dataset
     correct = 0
