@@ -1,7 +1,6 @@
 import pygame as p
-import numpy as np
 import torch
-# from _test import AdvancedNN
+from _test import AdvancedNN
 from PIL import Image
 
 def guess(screen, network):
@@ -54,9 +53,9 @@ screen.fill(BLACK)
 running = True
 mouse_pos = []
 
-# network = AdvancedNN()
-# network.load_state_dict(torch.load('optimized_NN.pth'))
-# network.eval()
+network = AdvancedNN()
+network.load_state_dict(torch.load('optimized_NN.pth'))
+network.eval()
 
 while running:
     for event in p.event.get():
@@ -80,7 +79,7 @@ while running:
                 screen.fill(BLACK)
                 p.display.flip()
                 mouse_pos.clear()
-        #     if event.key == p.K_g:
-        #         guess(screen, network)
+            if event.key == p.K_g:
+                guess(screen, network)
     p.display.flip()
 p.quit()
