@@ -112,7 +112,7 @@ def train_network_advanced(train_loader, test_loader, learning_rate=0.001, epoch
                 print(f'[Epoch {epoch + 1}, Batch {i + 1}] loss: {running_loss / batch_size:.3f}')
                 running_loss = 0.0
 
-
+    torch.save(net.state_dict(), 'optimized_NN.pth')
     print('Finished Training Advanced Network\n')
     # # Calculate and print accuracy on the test dataset
     correct = 0

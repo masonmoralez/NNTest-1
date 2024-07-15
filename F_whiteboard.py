@@ -22,8 +22,13 @@ def guess(screen, network):
         output = network(input_tensor)
     
     # Get the predicted class
-    predicted_class = torch.argmax(output, dim=1).item()
-    print("Predicted class:", predicted_class)
+    prediction = torch.argmax(output, dim=1).item()
+    print("Prediction:", prediction)
+
+    # Render the text
+    text = FONT.render(str(prediction), True, WHITE)  # White text
+    text_rect = text.get_rect(center=(screen_height * 0.05, screen_width * 0.05))
+    screen.blit(text, text_rect)
 
 def rgb_to_grayscale(r, g, b):
     return 0.299 * r + 0.587 * g + 0.114 * b
@@ -42,12 +47,16 @@ WHITE = (255, 255, 255)
 
 FRAME_RATE = 30
 
+FONT = p.font.Font(None, 40)
+
 screen = p.display.set_mode((screen_width, screen_height))
 screen.fill(BLACK)
 running = True
 mouse_pos = []
 
 network = AdvancedNN()
+network.load_state_dict(torch.load('optimized_NN.pth'))
+network.eval()
 
 while running:
     for event in p.event.get():
